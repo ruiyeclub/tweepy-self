@@ -1080,7 +1080,15 @@ class Client(BaseHTTPClient):
             "instructions"
         ]
         tweets_data = tweets_data_from_instructions(instructions)
-        return [Tweet.from_raw_data(tweet_data) for tweet_data in tweets_data]
+        # todo add try except...
+        data_list = []
+        for tweet_data in tweets_data:
+            try:
+                data_list.append(Tweet.from_raw_data(tweet_data))
+            except Exception as e:
+                pass
+        return data_list
+        # fixme return [Tweet.from_raw_data(tweet_data) for tweet_data in tweets_data]
 
     async def request_tweet(self, tweet_id: int | str) -> Tweet:
         return await self._request_tweet(tweet_id)
